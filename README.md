@@ -1,29 +1,34 @@
-# 🌟 HomeGuardian (Pet Hub)
-
+# 🌟 HomeGuardian
 ![Platform](https://img.shields.io/badge/Platform-ESP32--C5-blue)
 ![Framework](https://img.shields.io/badge/Framework-Arduino_Core_3.x-green)
 ![RTOS](https://img.shields.io/badge/RTOS-FreeRTOS-orange)
+![License](https://img.shields.io/badge/License-MIT-brightgreen)
 
 ## 📖 项目简介
-本项目是“HomeGuardian”零镜头看护系统的核心枢纽端（移动宠物小车）。
-系统基于极前沿的 **ESP32-C5 (ESP-SensairShuttle)** 芯片开发，利用 FreeRTOS 实现了严格的双核任务调度。它不仅能通过无感通信（ESP-NOW）实时接收来自沙发/门把手等隐蔽节点的高危跌倒报警并自动寻迹救援，还能通过 Wi-Fi 接入云端大模型（如火山引擎豆包），实现带有温度的智能语音交互。
+**HomeGuardian** 是一套专为独居老人设计的“无感、无镜头、高隐私”智能看护系统。
+不同于市面上冷冰冰的监控摄像头，我们将其打造为一只**具备全屋环境感知能力、接入云端大模型大脑、且能提供真实物理陪伴的电子生命**。
 
-## ⚙️ 硬件选型
-* **主控芯片**: ESP32-C5 (ESP-SensairShuttle RISC-V 架构)
-* **底盘驱动**: MX1508 / L298N 直流电机驱动模块
-* **通信协议**: ESP-NOW (内网穿透与毫秒级报警) + Wi-Fi / MQTT (云端大模型交互)
+系统通过“静止暗哨（环境感知）”与“移动中枢（小车宠物）”的双重架构，实现对老人跌倒、异常行为的毫秒级响应，并能主动介入（如提醒服药、物理陪伴）。
 
-## 🧠 核心架构 (双核调度设计)
-为保证系统在处理大语言模型 (LLM) 复杂的 JSON 数据时不阻塞底层硬件的急救响应，系统在 `main.cpp` 中进行了严密的 FreeRTOS 物理隔断：
-* **Core 0 (高优先级 - 运动与监听任务)**: 负责在后台静默运行 ESP-NOW 回调函数，监听高危报警信号，并直接驱动小车底盘电机进行极速响应。
-* **Core 1 (常规优先级 - AI 大脑任务)**: 负责维持长连接 Wi-Fi，调用 HTTP Client 与火山引擎大模型进行多轮对话，并解析生成的 JSON 数据。
+## 核心设计理念
+* **Privacy First (隐私至上)**：拒绝任何摄像头，采用毫米波雷达/Wi-Fi CSI感知技术，保障老人浴室/卧室尊严。
+* **Zero-Wearable (无感化)**：老人无需佩戴任何手环，解决老人健忘、排斥穿戴的问题。
+* **Active Companionship (主动陪伴)**：不仅仅是机器人，它是宠物。具备“摸头杀”反馈与“摇尾巴”情感表达，实现养老赛道的技术与温度结合。
 
-## 📂 目录结构与模块说明
-本项目采用标准化 C++ 模块化编写，基于 Arduino IDE 2.x 扁平化目录结构：
+## 🧠 系统架构
+系统由三层逻辑构成：
+1. **神经末梢层 (环境感知)**：静止部署在墙壁/天花板的 ESP32 节点（毫米波雷达/Wi-Fi 感知），通过 ESP-NOW 广播异常信号。
+2. **电子生命层 (移动中枢)**：搭载 ESP32-C5 的小车，具备双核调度、主动避障、语音交互与物理服药递送功能。
+3. **云端中枢 (情感交互)**：通过火山引擎豆包大模型，赋予小车拟人化的对话能力。
+
+## 📂 工程目录结构
+本项目采用高模块化设计，清晰划分了底盘、通信、大模型与生物交互逻辑：
+
 ```text
 HomeGuardian_C5/
- ├── HomeGuardian_C5.ino    # 主程序，包含 FreeRTOS 任务调度逻辑
- ├── Config.h               # ⚙️ 全局配置总控 (所有网络、API、引脚均在此修改)
- ├── ESPNOW_RX.h / .cpp     # 📡 无感通信模块 (适配 Core 3.x info 语法)
- ├── LLM_Chat.h / .cpp      # 🤖 云端大模型交互模块 (基于 HTTP POST)
- └── MotorControl.h / .cpp  # 🛞 底盘肌肉控制模块 (底层高低电平/PWM封装)
+ ├── HomeGuardian_C5.ino    # 主脑：FreeRTOS 多任务调度中心
+ ├── Config.h               # 全局总控：引脚配置与 API 密钥
+ ├── MotorControl.h/cpp     # 小脑：底盘驱动与超声波避障引擎
+ ├── ESPNOW_RX.h/cpp        # 顺风耳：ESP-NOW 毫秒级报警监听
+ ├── LLM_Chat.h/cpp         # 大脑：豆包 AI 大模型 HTTP 对接
+ └── Pet_Biology.h/cpp      # 灵魂：生物特质模块 (触摸反馈/舵机摇尾)
