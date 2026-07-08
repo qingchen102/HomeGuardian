@@ -1,11 +1,11 @@
-# 🌟 HomeGuardian 双子星 - 宠物中枢 (Pet Hub)
+# 🌟 HomeGuardian (Pet Hub)
 
 ![Platform](https://img.shields.io/badge/Platform-ESP32--C5-blue)
 ![Framework](https://img.shields.io/badge/Framework-Arduino_Core_3.x-green)
 ![RTOS](https://img.shields.io/badge/RTOS-FreeRTOS-orange)
 
 ## 📖 项目简介
-本项目是“HomeGuardian 双子星”零镜头看护系统的核心枢纽端（移动宠物小车）。
+本项目是“HomeGuardian”零镜头看护系统的核心枢纽端（移动宠物小车）。
 系统基于极前沿的 **ESP32-C5 (ESP-SensairShuttle)** 芯片开发，利用 FreeRTOS 实现了严格的双核任务调度。它不仅能通过无感通信（ESP-NOW）实时接收来自沙发/门把手等隐蔽节点的高危跌倒报警并自动寻迹救援，还能通过 Wi-Fi 接入云端大模型（如火山引擎豆包），实现带有温度的智能语音交互。
 
 ## ⚙️ 硬件选型
