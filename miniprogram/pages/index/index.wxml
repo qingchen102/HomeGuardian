@@ -1,0 +1,110 @@
+<!-- pages/index/index.wxml -->
+<view class="page-container {{deviceOnline ? '' : 'page-offline'}}">
+  
+  <!-- 紧急情况全屏高斯模糊弹窗 -->
+  <view class="emergency-modal" wx:if="{{emergency.active}}">
+    <view class="modal-content pulse-animation">
+      <icon type="warn" size="70" color="#ef4444"/>
+      <text class="alert-title">紧急警报</text>
+      <view class="reason-box">
+        <text class="reason-title">触发原因</text>
+        <text class="reason-text">{{emergency.reason}}</text>
+      </view>
+      <view class="emergency-actions">
+        <button class="action-btn call-btn" bindtap="callEmergencyContact">📞 呼叫紧急联系人</button>
+        <button class="action-btn audio-btn" bindtap="playEmergencyAudio">🔊 触发设备声光报警</button>
+        <button class="action-btn cancel-btn" bindtap="clearEmergency">我已处理，解除警报</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 沉浸式渐变背景头部 & 设备在线状态 -->
+  <view class="header-bg">
+    <view class="header-top">
+      <text class="header-title">智能监护中心</text>
+      <!-- 设备状态指示器 (看门狗机制驱动) -->
+      <view class="connection-status {{deviceOnline ? 'status-on' : 'status-off'}}">
+        <view class="status-dot"></view>
+        <text>{{deviceOnline ? '设备在线，数据同步中' : '设备已离线 (请检查电源/网络)'}}</text>
+      </view>
+    </view>
+    <text class="header-subtitle">24小时守护家人健康安全</text>
+  </view>
+
+  <!-- 悬浮主内容区 -->
+  <scroll-view scroll-y class="main-scroll-view">
+    
+    <!-- 1. 心率实时折线图 (ECharts) -->
+    <view class="monitor-card chart-card">
+      <view class="card-header">
+        <view class="header-left">
+          <text class="emoji-icon">📈</text>
+          <text class="section-title">实时心率趋势图</text>
+        </view>
+      </view>
+      <view class="chart-container">
+        <ec-canvas id="mychart-dom-line" canvas-id="mychart-line" ec="{{ ec }}"></ec-canvas>
+      </view>
+    </view>
+
+    <!-- 2. 床头与客厅监测点 (合并为网格视图) -->
+    <view class="monitor-card">
+      <view class="card-header">
+        <view class="header-left">
+          <text class="emoji-icon">🏠</text>
+          <text class="section-title">全屋体征监测</text>
+        </view>
+      </view>
+      
+      <view class="room-grid">
+        <view class="room-item {{bedside.present ? 'active-room' : ''}}">
+          <view class="room-name">🛏️ 床头区域 {{bedside.present ? '(有人)' : ''}}</view>
+          <view class="room-data"><text class="data-val text-rose">{{bedside.heartRate}}</text> bpm</view>
+          <view class="room-data"><text class="data-val text-blue">{{bedside.breathRate}}</text> 次/分</view>
+        </view>
+        <view class="room-item {{livingRoom.present ? 'active-room' : ''}}">
+          <view class="room-name">🛋️ 客厅区域 {{livingRoom.present ? '(有人)' : ''}}</view>
+          <view class="room-data"><text class="data-val text-rose">{{livingRoom.heartRate}}</text> bpm</view>
+          <view class="room-data"><text class="data-val text-emerald">{{livingRoom.spo2}}</text> % (血氧)</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 3. AI 智能健康分析区 -->
+    <view class="monitor-card ai-card">
+      <view class="card-header">
+        <view class="header-left">
+          <text class="emoji-icon">🤖</text>
+          <text class="section-title">AI 健康分析专家</text>
+        </view>
+      </view>
+      <view class="ai-report-box {{aiLoading ? 'loading-pulse' : ''}}">
+        <text class="ai-text" wx:if="{{aiReport}}">{{aiReport}}</text>
+        <text class="ai-placeholder" wx:else>点击下方按钮，基于当前体征数据生成全面的 AI 健康评估报告。</text>
+      </view>
+      <button class="ai-btn" bindtap="generateAIReport" disabled="{{aiLoading}}">
+        {{aiLoading ? 'AI 正在深度分析中...' : '✨ 一键生成 AI 健康报告'}}
+      </button>
+    </view>
+
+    <!-- 4. 高级功能设置区 -->
+    <view class="monitor-card settings-card">
+      <view class="card-header">
+        <view class="header-left">
+          <text class="emoji-icon">⚙️</text>
+          <text class="section-title">系统高级设置</text>
+        </view>
+      </view>
+      
+      <view class="setting-item">
+        <view class="setting-info">
+          <text class="setting-name">开启微信锁屏报警推送</text>
+          <text class="setting-desc">设备检测到跌倒时，通过微信直接弹窗通知家属</text>
+        </view>
+        <button class="subscribe-btn" bindtap="requestSubscribeMessage">授权开启</button>
+      </view>
+    </view>
+
+    <view style="height: 60rpx;"></view>
+  </scroll-view>
+</view>

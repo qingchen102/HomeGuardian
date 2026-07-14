@@ -1,0 +1,75 @@
+/* pages/index/index.wxss */
+page { background-color: #f4f6f9; height: 100%; font-family: -apple-system, sans-serif; }
+.page-container { display: flex; flex-direction: column; height: 100vh; position: relative; transition: filter 0.5s; }
+
+/* 离线状态时的全屏置灰效果 */
+.page-offline { filter: grayscale(80%) opacity(0.8); pointer-events: none; }
+
+/* 头部渐变背景 */
+.header-bg { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); padding: 80rpx 40rpx 140rpx 40rpx; border-bottom-left-radius: 60rpx; border-bottom-right-radius: 60rpx; display: flex; flex-direction: column; }
+.header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10rpx;}
+.header-title { color: #ffffff; font-size: 44rpx; font-weight: 900; letter-spacing: 2rpx; }
+.header-subtitle { color: rgba(255, 255, 255, 0.8); font-size: 26rpx; }
+
+/* 设备在线状态指示器 */
+.connection-status { display: flex; align-items: center; background: rgba(0,0,0,0.2); padding: 8rpx 20rpx; border-radius: 30rpx; font-size: 22rpx; color: white; }
+.status-dot { width: 12rpx; height: 12rpx; border-radius: 50%; margin-right: 10rpx; }
+.status-on .status-dot { background-color: #10b981; box-shadow: 0 0 10rpx #10b981; }
+.status-off .status-dot { background-color: #ef4444; box-shadow: 0 0 10rpx #ef4444; }
+.status-off { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+
+/* 悬浮主内容区 */
+.main-scroll-view { flex: 1; width: 100%; margin-top: -80rpx; padding: 0 30rpx; box-sizing: border-box; }
+
+/* 统一卡片样式 */
+.monitor-card { background-color: #ffffff; border-radius: 32rpx; padding: 36rpx; margin-bottom: 30rpx; box-shadow: 0 16rpx 40rpx rgba(0, 0, 0, 0.04); }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24rpx; }
+.header-left { display: flex; align-items: center; }
+.emoji-icon { font-size: 36rpx; margin-right: 16rpx; }
+.section-title { font-weight: 800; font-size: 32rpx; color: #1e293b; }
+
+/* --- 实时折线图区域 --- */
+.chart-container { width: 100%; height: 400rpx; }
+
+/* --- 全屋状态网格 --- */
+.room-grid { display: flex; gap: 20rpx; }
+.room-item { flex: 1; background: #f8fafc; border: 2rpx solid #e2e8f0; border-radius: 20rpx; padding: 20rpx; transition: all 0.3s; }
+.active-room { background: #f0fdf4; border-color: #86efac; box-shadow: 0 4rpx 12rpx rgba(74, 222, 128, 0.1); }
+.room-name { font-size: 24rpx; color: #64748b; font-weight: bold; margin-bottom: 16rpx; }
+.room-data { font-size: 22rpx; color: #94a3b8; margin-bottom: 8rpx; }
+.data-val { font-size: 44rpx; font-weight: 900; font-family: 'DIN Alternate', sans-serif; }
+.text-rose { color: #f43f5e; }
+.text-blue { color: #3b82f6; }
+.text-emerald { color: #10b981; }
+
+/* --- AI 卡片 --- */
+.ai-card { background: linear-gradient(180deg, #ffffff 0%, #f0fdfa 100%); border: 2rpx solid #ccfbf1; }
+.ai-report-box { background-color: #ffffff; border-radius: 20rpx; padding: 30rpx; min-height: 160rpx; margin-bottom: 30rpx; box-shadow: 0 4rpx 12rpx rgba(20, 184, 166, 0.05); font-size: 28rpx; line-height: 1.6; color: #0f766e; }
+.ai-placeholder { color: #99f6e4; font-style: italic; }
+.ai-btn { background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%); color: white; font-weight: bold; border-radius: 16rpx; font-size: 30rpx; }
+.ai-btn[disabled] { background: #99f6e4 !important; color: #0f766e !important; }
+@keyframes aiLoadingPulse { 0% { box-shadow: 0 0 0 0 rgba(20,184,166,0.2); } 50% { box-shadow: 0 0 0 10rpx rgba(20,184,166,0); } 100% { box-shadow: 0 0 0 0 rgba(20,184,166,0); } }
+.loading-pulse { animation: aiLoadingPulse 1.5s infinite; border: 2rpx solid #5eead4; }
+
+/* --- 设置与推送区 --- */
+.settings-card { border: 2rpx solid #e0e7ff; background: #fafafa; }
+.setting-item { display: flex; justify-content: space-between; align-items: center; padding-top: 10rpx;}
+.setting-info { display: flex; flex-direction: column; flex: 1; margin-right: 20rpx;}
+.setting-name { font-size: 28rpx; font-weight: bold; color: #333; margin-bottom: 8rpx;}
+.setting-desc { font-size: 22rpx; color: #94a3b8; }
+.subscribe-btn { background-color: #10b981; color: white; font-size: 24rpx; padding: 0 30rpx; margin: 0; height: 60rpx; line-height: 60rpx; border-radius: 30rpx; }
+
+/* --- 紧急警报弹窗 --- */
+.emergency-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+.modal-content { width: 85%; background-color: #ffffff; border-radius: 40rpx; padding: 60rpx 40rpx; display: flex; flex-direction: column; align-items: center; box-shadow: 0 20rpx 50rpx rgba(220, 38, 38, 0.4); }
+@keyframes redPulse { 0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.5); } 70% { box-shadow: 0 0 0 40rpx rgba(239,68,68,0); } 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); } }
+.pulse-animation { animation: redPulse 2s infinite; border: 6rpx solid #fca5a5; }
+.alert-title { font-size: 56rpx; font-weight: 900; color: #dc2626; margin: 20rpx 0 30rpx 0; }
+.reason-box { background: #fef2f2; border: 2rpx solid #fecaca; padding: 30rpx; border-radius: 20rpx; width: 100%; margin-bottom: 40rpx; text-align: center; }
+.reason-title { font-size: 26rpx; font-weight: bold; color: #ef4444; margin-bottom: 10rpx; }
+.reason-text { font-size: 32rpx; font-weight: bold; color: #7f1d1d; }
+.emergency-actions { width: 100%; display: flex; flex-direction: column; gap: 20rpx; }
+.action-btn { width: 100%; font-weight: bold; border-radius: 20rpx; padding: 24rpx 0; font-size: 32rpx; margin: 0; line-height: 1.5; }
+.call-btn { background-color: #10b981; color: white; }
+.audio-btn { background-color: #f59e0b; color: white; }
+.cancel-btn { background-color: #f1f5f9; color: #64748b; }

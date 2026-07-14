@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "ec-canvas": "/ec-canvas/ec-canvas"
+  },
+  "navigationBarTitleText": "智能监护大屏",
+  "navigationBarBackgroundColor": "#3b82f6",
+  "navigationBarTextStyle": "white"
+}
