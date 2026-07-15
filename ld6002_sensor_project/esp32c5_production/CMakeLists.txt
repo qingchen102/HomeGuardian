@@ -1,0 +1,4 @@
+# Main application CMakeLists.txt
+cmake_minimum_required(VERSION 3.16)
+include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+project(ld6002_sensor_app)
